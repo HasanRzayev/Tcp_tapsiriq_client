@@ -21,7 +21,7 @@
                 <ComboBox Grid.Column="0" SelectedItem="{Binding Selected_combobox,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding List_Combo }"></ComboBox>
             </Border>
             <Border BorderThickness="20" Grid.Column="1">
-                <TextBox  Height="50"></TextBox>
+                <TextBox  Text="{Binding Textbox_text,UpdateSourceTrigger=PropertyChanged}" Height="50"></TextBox>
             </Border>
             <Border BorderThickness="20" Grid.Column="2">
                 <Button  Background="Blue" FontSize="50" Command="{Binding Run}" >RUN</Button>

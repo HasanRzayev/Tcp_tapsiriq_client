@@ -10,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Tcp_tapsiriq_client
 {
@@ -53,144 +54,146 @@ namespace Tcp_tapsiriq_client
         {
             get => new RelayCommand(() =>
             {
-                if (Selected_combobox == "List")
+
+                Task.Run(() =>
                 {
-                    var client = new TcpClient();
-                    var ip = IPAddress.Parse("10.2.27.46");
-                    var ep = new IPEndPoint(ip, 61932);
 
-                    try
+                    if (Selected_combobox == "List")
                     {
-                        client.Connect(ep);
-                        if (client.Connected)
+                        var client = new TcpClient();
+                        var ip = IPAddress.Parse("10.2.27.46");
+                        var ep = new IPEndPoint(ip, 61932);
+
+                        try
                         {
-                            while (true)
+                            client.Connect(ep);
+                            if (client.Connected)
                             {
+                                while (true)
+                                {
 
-                                var stream = client.GetStream();
-                                //var bw = new BinaryWriter(stream);
-
-
-
-                                //foreach (var process in processes)
-                                //{
-                                //    bw.Write(process.Id);
-                                //    bw.Write(process.ProcessName.ToString());
-                                //}
-                                var bw = new BinaryWriter(stream);
-                                var json = JsonConvert.SerializeObject(processes, Newtonsoft.Json.Formatting.Indented);
-                                bw.Write(json);
+                                    var stream = client.GetStream();
+                                    //var bw = new BinaryWriter(stream);
 
 
+
+                                    //foreach (var process in processes)
+                                    //{
+                                    //    bw.Write(process.Id);
+                                    //    bw.Write(process.ProcessName.ToString());
+                                    //}
+                                    var bw = new BinaryWriter(stream);
+                                    var json = JsonConvert.SerializeObject(processes, Newtonsoft.Json.Formatting.Indented);
+                                    bw.Write(json);
+
+
+                                }
                             }
+
                         }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-                else if (Selected_combobox == "kill")
-                {
-                    var client = new TcpClient();
-                    var ip = IPAddress.Parse("10.2.27.46");
-                    var ep = new IPEndPoint(ip, 61932);
-
-                    try
-                    {
-                        client.Connect(ep);
-                        if (client.Connected)
+                        catch (Exception ex)
                         {
-                            while (true)
-                            {
-
-                                var stream = client.GetStream();
-                                try
-                                {
-
-                                    var lst = Process.GetProcessesByName(Textbox_text);
-                                    foreach (var proc in lst)
-                                    {
-                                        proc.Kill();
-                                    }
-                                    processes.Clear();
-                                    foreach (var process in Process.GetProcesses())
-                                    {
-                                        processes.Add(process.ProcessName);
-
-                                    }
-                                }
-                                catch (Exception)
-                                {
-
-                                    throw;
-                                }
-                               
-                                var bw = new BinaryWriter(stream);
-                                var json = JsonConvert.SerializeObject(processes, Newtonsoft.Json.Formatting.Indented);
-                                bw.Write(json);
-
-
-                            }
+                            Console.WriteLine(ex.Message);
                         }
-
                     }
-                    catch (Exception ex)
+                    else if (Selected_combobox == "kill")
                     {
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-                else if (Selected_combobox == "Start")
-                {
-                    var client = new TcpClient();
-                    var ip = IPAddress.Parse("10.2.27.46");
-                    var ep = new IPEndPoint(ip, 61932);
+                        var client = new TcpClient();
+                        var ip = IPAddress.Parse("10.2.27.46");
+                        var ep = new IPEndPoint(ip, 61932);
 
-                    try
-                    {
-                        client.Connect(ep);
-                        if (client.Connected)
+                        try
                         {
-                            while (true)
+                            client.Connect(ep);
+                            if (client.Connected)
                             {
-
-                                var stream = client.GetStream();
-                                try
+                                while (true)
                                 {
 
-                                    var lst = Process.GetProcessesByName(Textbox_text);
-                                    foreach (var proc in lst)
+                                    var stream = client.GetStream();
+                                    try
                                     {
-                                        proc.Start();
+                                       
+                                        var lst = Process.GetProcessesByName(Textbox_text);
+                                        foreach (var proc in lst)
+                                        {
+                                            proc.Kill();
+                                        }
+                                        processes.Clear();
+                                        foreach (var process in Process.GetProcesses())
+                                        {
+                                            processes.Add(process.ProcessName);
+
+                                        }
                                     }
-                                    processes.Clear();
-                                    foreach (var process in Process.GetProcesses())
+                                    catch (Exception)
                                     {
-                                        processes.Add(process.ProcessName);
 
+                                        throw;
                                     }
+
+                                    var bw = new BinaryWriter(stream);
+                                    var json = JsonConvert.SerializeObject(processes, Newtonsoft.Json.Formatting.Indented);
+                                    bw.Write(json);
+
+
                                 }
-                                catch (Exception)
-                                {
-
-                                    throw;
-                                }
-
-                                var bw = new BinaryWriter(stream);
-                                var json = JsonConvert.SerializeObject(processes, Newtonsoft.Json.Formatting.Indented);
-                                bw.Write(json);
-
-
                             }
-                        }
 
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
-                    catch (Exception ex)
+                    else if (Selected_combobox == "Create")
                     {
-                        Console.WriteLine(ex.Message);
+                        var client = new TcpClient();
+                        var ip = IPAddress.Parse("10.2.27.46");
+                        var ep = new IPEndPoint(ip, 61932);
+
+                        try
+                        {
+                            client.Connect(ep);
+                            if (client.Connected)
+                            {
+                                while (true)
+                                {
+
+                                    var stream = client.GetStream();
+                                    try
+                                    {
+                                        Process.Start(Textbox_text);
+                                  
+                                       
+                                        processes.Clear();
+                                        foreach (var process in Process.GetProcesses())
+                                        {
+                                            processes.Add(process.ProcessName);
+
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                        throw;
+                                    }
+
+                                    var bw = new BinaryWriter(stream);
+                                    var json = JsonConvert.SerializeObject(processes, Newtonsoft.Json.Formatting.Indented);
+                                    bw.Write(json);
+
+
+                                }
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
-                }
+                });
             });
         }
         public MainViewModel()

@@ -28,12 +28,7 @@ namespace Tcp_server_TAPSIRIQ
     /// </summary>
     public partial class MainWindow : Window
     {
-        public class pro
-        {
-
-            public string process_name { get; set; }
-            public int id { get; set; }
-        }
+      
       
             static TcpListener listener = null;
             static
@@ -53,8 +48,6 @@ namespace Tcp_server_TAPSIRIQ
 
                 Task.Run(() =>
                 {
-
-                    
 
                     try
                     {
