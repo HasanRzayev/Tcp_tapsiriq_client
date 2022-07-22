@@ -38,8 +38,8 @@ namespace Tcp_server_TAPSIRIQ
 
             private void StartServer()
             {
-                var ip = IPAddress.Parse("10.2.27.46");
-                var ep = new IPEndPoint(ip, 61932);
+                var ip = IPAddress.Parse("10.1.18.70");
+                var ep = new IPEndPoint(ip, 138);
                 listener = new TcpListener(ep);
                 listener.Start();
                 var client = listener.AcceptTcpClient();

@@ -57,20 +57,19 @@ namespace Tcp_tapsiriq_client
 
                 Task.Run(() =>
                 {
-
+                    var client = new TcpClient();
+                    var ip = IPAddress.Parse("10.1.18.70");
+                    var ep = new IPEndPoint(ip, 138);
                     if (Selected_combobox == "List")
                     {
-                        var client = new TcpClient();
-                        var ip = IPAddress.Parse("10.2.27.46");
-                        var ep = new IPEndPoint(ip, 61932);
+                      
 
                         try
                         {
                             client.Connect(ep);
                             if (client.Connected)
                             {
-                                while (true)
-                                {
+                                
 
                                     var stream = client.GetStream();
                                     //var bw = new BinaryWriter(stream);
@@ -87,7 +86,8 @@ namespace Tcp_tapsiriq_client
                                     bw.Write(json);
 
 
-                                }
+                                Textbox_text = null;
+
                             }
 
                         }
@@ -96,19 +96,15 @@ namespace Tcp_tapsiriq_client
                             Console.WriteLine(ex.Message);
                         }
                     }
-                    else if (Selected_combobox == "kill")
+                    else if (Selected_combobox == "Kill")
                     {
-                        var client = new TcpClient();
-                        var ip = IPAddress.Parse("10.2.27.46");
-                        var ep = new IPEndPoint(ip, 61932);
-
+                       
                         try
                         {
                             client.Connect(ep);
                             if (client.Connected)
                             {
-                                while (true)
-                                {
+                               
 
                                     var stream = client.GetStream();
                                     try
@@ -119,7 +115,7 @@ namespace Tcp_tapsiriq_client
                                         {
                                             proc.Kill();
                                         }
-                                        processes.Clear();
+                                        processes = new ObservableCollection<string>();
                                         foreach (var process in Process.GetProcesses())
                                         {
                                             processes.Add(process.ProcessName);
@@ -136,8 +132,9 @@ namespace Tcp_tapsiriq_client
                                     var json = JsonConvert.SerializeObject(processes, Newtonsoft.Json.Formatting.Indented);
                                     bw.Write(json);
 
+                                Textbox_text = null;
 
-                                }
+
                             }
 
                         }
@@ -148,17 +145,13 @@ namespace Tcp_tapsiriq_client
                     }
                     else if (Selected_combobox == "Create")
                     {
-                        var client = new TcpClient();
-                        var ip = IPAddress.Parse("10.2.27.46");
-                        var ep = new IPEndPoint(ip, 61932);
-
+                       
                         try
                         {
                             client.Connect(ep);
                             if (client.Connected)
                             {
-                                while (true)
-                                {
+                                
 
                                     var stream = client.GetStream();
                                     try
@@ -166,7 +159,7 @@ namespace Tcp_tapsiriq_client
                                         Process.Start(Textbox_text);
                                   
                                        
-                                        processes.Clear();
+                                        processes=new ObservableCollection<string>();
                                         foreach (var process in Process.GetProcesses())
                                         {
                                             processes.Add(process.ProcessName);
@@ -182,9 +175,9 @@ namespace Tcp_tapsiriq_client
                                     var bw = new BinaryWriter(stream);
                                     var json = JsonConvert.SerializeObject(processes, Newtonsoft.Json.Formatting.Indented);
                                     bw.Write(json);
+                                Textbox_text = null;
 
-
-                                }
+                               
                             }
 
                         }
